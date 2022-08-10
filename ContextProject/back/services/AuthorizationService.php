@@ -33,6 +33,25 @@ class AuthorizationService implements AuthorizationServiceInterface
     }
 
     /**
+     * Проверят есть ли у юзера доступ к любой из групп на осно
+     * @param string $login
+     * @param array $groups
+     * @return bool
+     */
+    public function hasAccessToAny(string $login, array $groups): bool
+    {
+        $hasAccess = false;
+        $length    = count($groups);
+        for ($i = 0; $i < $length; $i++) {
+            if($this->isMemberOf($login, $groups[$i])) {
+                $hasAccess = true;
+                break;
+            }
+        }
+        return $hasAccess;
+    }
+
+    /**
      * Проверяет есть ли у юзера доступ к какому-то функционалу на основе
      * принадлежности его к определённой группе
      * @param string $login
